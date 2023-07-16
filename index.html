@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,600;0,900;1,600;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Formulário</title>
+</head>
+<body>
+    <div class="maior"> 
+        <div class="form">
+            <h1>Data Core</h1>
+            <h3>Cadastre-se</h3>
+      
+            
+    <form id="form">
+        <label for="nome">
+            <i class="fa fa-user"></i>
+            <input type="text" name="nome" id="nome" placeholder="Digite seu nome" class="input required" onInput="nameValidate()">
+            <span class="span-required">Complete seu nome</span>
+        </label>
+        <label for="email">
+            <i class="fa fa-envelope"></i>
+            <input type="email" name="email" id="email" placeholder="Digite seu email" class="input required">
+            <span class="span-required">Digite um email válido</span>
+        </label>
+        <label for="telefone">
+            <i class="fa fa-phone"></i>
+            <input type="text" name="telefone" id="telefone" placeholder="Digite seu telefone" class="input required" onInput="phoneValidate()">
+            <span class="span-required">Digite um telefone válido</span>
+        </label>
+        <label for="senha">
+            <i class="fa fa-key"></i>
+            <input type="password" name="senha" id="senha" placeholder="Digite sua senha" class="input required" onInput="passwordValidate()">
+            <span class="span-required">Sua senha deve ter no mínimo 8 caracteres</span>
+        </label>
+        <label for="confirmar-senha">
+            <i class="fa fa-key"></i>
+            <span class="span-required">As senhas devem ser compatíveis</span>
+            <input type="password" name="confirmar-senha" id="confirmar-senha" placeholder="Repita sua senha" class="input required" onInput="comparePassword()">
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+    </div><!--div form-->
+    </div><!--div maior-->
+</body>
+<script>
+const form = document.getElementById('form');
+const input = document.querySelectorAll('.required');
+const span = document.querySelectorAll('.span-required');
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (nameValidate() && emailValidate() && phoneValidate() && passwordValidate()) {
+        form.submit();
+    }
+});
+
+function setError(index) {
+    input[index].style.border = '2px solid red';
+    span[index].style.display = 'block';
+}
+
+function removeError(index) {
+    input[index].style.border = '';
+    span[index].style.display = 'none';
+}
+
+function nameValidate() {
+    if (input[0].value.length < 3) {
+        setError(0);
+        return false;
+    } else {
+        removeError(0);
+        return true;
+    }
+}
+
+function emailValidate() {
+    if (!emailRegex.test(input[1].value)) {
+        setError(1);
+        return false;
+    } else {
+        removeError(1);
+        return true;
+    }
+}
+
+function comparePassword() {
+    if (input[3].value === input[4].value && input[4].value.length >= 8) {
+        removeError(4);
+    } else {
+        setError(4);
+    }
+}
+
+function passwordValidate() {
+    if (input[3].value.length < 8) {
+        setError(3);
+        return false;
+    } else {
+        removeError(3);
+        comparePassword();
+        return true;
+    }
+}
+
+function phoneValidate() {
+    const phoneRegex = /^\d{9}$/;
+    if (!phoneRegex.test(input[2].value)) {
+        setError(2);
+        return false;
+    } else {
+        removeError(2);
+        return true;
+    }
+}
+</script>
+</html>
+
